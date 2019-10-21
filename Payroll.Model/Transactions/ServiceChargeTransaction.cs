@@ -7,22 +7,22 @@ namespace Payroll.Model.Transactions
 {
     public class ServiceChargeTransaction : ITransaction
     {
-        private readonly Int32 _memberID;
+        private readonly Int32 _unionMemberID;
 
         private readonly DateTime _date;
 
         private readonly Double _amount;
 
-        public ServiceChargeTransaction(Int32 memberID, DateTime date, Double amount)
+        public ServiceChargeTransaction(Int32 unionMemberID, DateTime date, Double amount)
         {
-            _memberID = memberID;
+            _unionMemberID = unionMemberID;
             _date = date;
             _amount = amount;
         }
 
         public void Execute()
         {
-            Employee employee = PayrollDatabase.GetUnionMember(_memberID);
+            Employee employee = PayrollDatabase.GetUnionMember(_unionMemberID);
             if (employee != null)
             {
                 if (employee.Affilation is UnionAffilation unionAffilation)
