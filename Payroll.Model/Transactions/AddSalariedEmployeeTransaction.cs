@@ -14,14 +14,20 @@ namespace Payroll.Model.Transactions
             _salary = salary;
         }
 
-        protected override IPaymentClassification MakePaymentClassification()
+        protected override IPaymentClassification Classification
         {
-            return new SalariedPaymentClassification(_salary);
+            get
+            {
+                return new SalariedPaymentClassification(_salary);
+            }
         }
 
-        protected override IPaymentSchedule MakePaymentSchedule()
+        protected override IPaymentSchedule Schedule
         {
-            return new MonthlyPaymentSchedule();
+            get
+            {
+                return new MonthlyPaymentSchedule();
+            }
         }
     }
 }

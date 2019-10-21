@@ -17,14 +17,20 @@ namespace Payroll.Model.Transactions
             _commissionRate = commissionRate;
         }
 
-        protected override IPaymentClassification MakePaymentClassification()
+        protected override IPaymentClassification Classification
         {
-            return new CommissionedPaymentClassification(_salary, _commissionRate);
+            get
+            {
+                return new CommissionedPaymentClassification(_salary, _commissionRate);
+            }
         }
 
-        protected override IPaymentSchedule MakePaymentSchedule()
+        protected override IPaymentSchedule Schedule
         {
-            return new BiweeklyPaymentSchedule();
+            get
+            {
+                return new BiweeklyPaymentSchedule();
+            }
         }
     }
 }

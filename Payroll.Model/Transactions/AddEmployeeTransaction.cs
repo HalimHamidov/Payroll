@@ -23,22 +23,28 @@ namespace Payroll.Model.Transactions
             _address = address;
         }
 
-        protected abstract IPaymentClassification MakePaymentClassification();
+        protected abstract IPaymentClassification Classification
+        {
+            get;
+        }
 
-        protected abstract IPaymentSchedule MakePaymentSchedule();
+        protected abstract IPaymentSchedule Schedule
+        {
+            get;
+        }
 
         public void Execute()
         {
-            IPaymentClassification paymentClassification = MakePaymentClassification();
-            IPaymentSchedule paymentSchedule = MakePaymentSchedule();
+            IPaymentClassification paymentClassification = Classification;
+            IPaymentSchedule paymentSchedule = Schedule;
             IPaymentMethod paymentMethod = new HoldMethod();
             IAffilation affilation = new NoAffilation();
 
             Employee employee = new Employee(_employeeID, _name, _address)
             {
-                Classification = paymentClassification,
-                Schedule = paymentSchedule,
-                Method = paymentMethod,
+                PaymentClassification = paymentClassification,
+                PaymentSchedule = paymentSchedule,
+                PaymentMethod = paymentMethod,
                 Affilation = affilation
             };
 

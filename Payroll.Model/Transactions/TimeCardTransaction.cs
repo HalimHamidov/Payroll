@@ -25,7 +25,7 @@ namespace Payroll.Model.Transactions
             Employee employee = PayrollDatabase.GetEmployee(_employeeID);
             if (employee != null)
             {
-                if (employee.Classification is HourlyPaymentClassification hourlyClassification)
+                if (employee.PaymentClassification is HourlyPaymentClassification hourlyClassification)
                 {
                     hourlyClassification.AddTimeCard(new TimeCard(_date, _hours));
                 }

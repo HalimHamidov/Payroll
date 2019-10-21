@@ -22,15 +22,15 @@ namespace Payroll.XUnitTest
             Employee employee = PayrollDatabase.GetEmployee(employeeID);
             Assert.Equal("Bob", employee.Name);
 
-            IPaymentClassification paymentClassification = employee.Classification;
+            IPaymentClassification paymentClassification = employee.PaymentClassification;
             Assert.True(paymentClassification is SalariedPaymentClassification);
             SalariedPaymentClassification salariedClassification = paymentClassification as SalariedPaymentClassification;
             Assert.Equal(1000.0, salariedClassification.Salary, 3);
 
-            IPaymentSchedule paymentSchedule = employee.Schedule;
+            IPaymentSchedule paymentSchedule = employee.PaymentSchedule;
             Assert.True(paymentSchedule is MonthlyPaymentSchedule);
 
-            IPaymentMethod paymentMethod = employee.Method;
+            IPaymentMethod paymentMethod = employee.PaymentMethod;
             Assert.True(paymentMethod is HoldMethod);
 
             IAffilation affilation = employee.Affilation;
@@ -47,15 +47,15 @@ namespace Payroll.XUnitTest
             Employee employee = PayrollDatabase.GetEmployee(employeeID);
             Assert.Equal("Michael", employee.Name);
 
-            IPaymentClassification paymentClassification = employee.Classification;
+            IPaymentClassification paymentClassification = employee.PaymentClassification;
             Assert.True(paymentClassification is HourlyPaymentClassification);
             HourlyPaymentClassification hourlyClassification = paymentClassification as HourlyPaymentClassification;
             Assert.Equal(100.0, hourlyClassification.HourlyRate, 3);
 
-            IPaymentSchedule paymentSchedule = employee.Schedule;
+            IPaymentSchedule paymentSchedule = employee.PaymentSchedule;
             Assert.True(paymentSchedule is WeeklyPaymentSchedule);
 
-            IPaymentMethod paymentMethod = employee.Method;
+            IPaymentMethod paymentMethod = employee.PaymentMethod;
             Assert.True(paymentMethod is HoldMethod);
 
             IAffilation affilation = employee.Affilation;
@@ -72,16 +72,16 @@ namespace Payroll.XUnitTest
             Employee employee = PayrollDatabase.GetEmployee(employeeID);
             Assert.Equal("Jacob", employee.Name);
 
-            IPaymentClassification paymentClassification = employee.Classification;
+            IPaymentClassification paymentClassification = employee.PaymentClassification;
             Assert.True(paymentClassification is CommissionedPaymentClassification);
             CommissionedPaymentClassification commissionedClassification = paymentClassification as CommissionedPaymentClassification;
             Assert.Equal(1000.0, commissionedClassification.Salary, 3);
             Assert.Equal(10.0, commissionedClassification.CommissionRate, 3);
 
-            IPaymentSchedule paymentSchedule = employee.Schedule;
+            IPaymentSchedule paymentSchedule = employee.PaymentSchedule;
             Assert.True(paymentSchedule is BiweeklyPaymentSchedule);
 
-            IPaymentMethod paymentMethod = employee.Method;
+            IPaymentMethod paymentMethod = employee.PaymentMethod;
             Assert.True(paymentMethod is HoldMethod);
 
             IAffilation affilation = employee.Affilation;
@@ -118,7 +118,7 @@ namespace Payroll.XUnitTest
             Employee employee = PayrollDatabase.GetEmployee(employeeID);
             Assert.NotNull(employee);
 
-            IPaymentClassification paymentClassification = employee.Classification;
+            IPaymentClassification paymentClassification = employee.PaymentClassification;
             Assert.True(paymentClassification is HourlyPaymentClassification);
             HourlyPaymentClassification hourlyClassification = paymentClassification as HourlyPaymentClassification;
 
@@ -140,7 +140,7 @@ namespace Payroll.XUnitTest
             Employee employee = PayrollDatabase.GetEmployee(employeeID);
             Assert.NotNull(employee);
 
-            IPaymentClassification paymentClassification = employee.Classification;
+            IPaymentClassification paymentClassification = employee.PaymentClassification;
             Assert.True(paymentClassification is CommissionedPaymentClassification);
             CommissionedPaymentClassification commissionedClassification = paymentClassification as CommissionedPaymentClassification;
 
@@ -172,6 +172,58 @@ namespace Payroll.XUnitTest
             ServiceCharge serviceCharge = affilation.GetServiceCharge(new DateTime(2019, 1, 1));
             Assert.NotNull(serviceCharge);
             Assert.Equal(12.95, serviceCharge.Amount, 3);
+        }
+
+        [Fact]
+        public void TestChangeNameTransaction()
+        {
+            Int32 employeeID = 8;
+            AddHourlyEmployeeTransaction transaction1 = new AddHourlyEmployeeTransaction(employeeID, "Benjamin", "Home", 15.25);
+            transaction1.Execute();
+
+            ChangeNameTransaction transaction2 = new ChangeNameTransaction(employeeID, "Bob");
+            transaction2.Execute();
+
+            Employee employee = PayrollDatabase.GetEmployee(employeeID);
+            Assert.NotNull(employee);
+            Assert.Equal("Bob", employee.Name);
+        }
+
+        [Fact]
+        public void TestChangeAddressTransaction()
+        {
+            Int32 employeeID = 9;
+            AddSalariedEmployeeTransaction transaction1 = new AddSalariedEmployeeTransaction(employeeID, "Logan", "Home", 915.25);
+            transaction1.Execute();
+
+            ChangeAddressTransaction transaction2 = new ChangeAddressTransaction(employeeID, "Office");
+            transaction2.Execute();
+
+            Employee employee = PayrollDatabase.GetEmployee(employeeID);
+            Assert.NotNull(employee);
+            Assert.Equal("Office", employee.Address);
+        }
+
+        [Fact]
+        public void TestChangeHourlyTransaction()
+        {
+            Int32 employeeID = 10;
+            AddCommissionedEmployeeTransaction transaction1 = new AddCommissionedEmployeeTransaction(employeeID, "Matthew", "Home", 1000.0, 3.2);
+            transaction1.Execute();
+
+            ChangeHourlyTransaction transaction2 = new ChangeHourlyTransaction(employeeID, 27.52);
+            transaction2.Execute();
+
+            Employee employee = PayrollDatabase.GetEmployee(employeeID);
+            Assert.NotNull(employee);
+
+            IPaymentClassification paymentClassification = employee.PaymentClassification;
+            Assert.True(paymentClassification is HourlyPaymentClassification);
+            HourlyPaymentClassification hourlyClassification = paymentClassification as HourlyPaymentClassification;
+            Assert.Equal(27.52, hourlyClassification.HourlyRate, 3);
+
+            IPaymentSchedule paymentSchedule = employee.PaymentSchedule;
+            Assert.True(paymentSchedule is WeeklyPaymentSchedule);
         }
     }
 }

@@ -17,15 +17,15 @@ namespace Payroll.Model.Entities
 
         public Int32 ID { get; private set; }
 
-        public String Name { get; private set; }
+        public String Name { get; set; }
 
-        public String Address { get; private set; }
+        public String Address { get; set; }
 
-        public IPaymentClassification Classification { get; set; }
+        public IPaymentClassification PaymentClassification { get; set; }
 
-        public IPaymentSchedule Schedule { get; set;}
+        public IPaymentSchedule PaymentSchedule { get; set;}
 
-        public IPaymentMethod Method { get; set; }
+        public IPaymentMethod PaymentMethod { get; set; }
 
         public IAffilation Affilation { get; set; }
     }

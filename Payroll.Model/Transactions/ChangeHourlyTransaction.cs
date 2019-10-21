@@ -1,20 +1,23 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Payroll.Model.Classifications;
+using Payroll.Model.Entities;
 using Payroll.Model.Schedules;
 
 namespace Payroll.Model.Transactions
 {
-    public class AddHourlyEmployeeTransaction : AddEmployeeTransaction
+    public class ChangeHourlyTransaction : ChangeClassificationTransaction
     {
         private readonly Double _hourlyRate;
 
-        public AddHourlyEmployeeTransaction(Int32 employeeID, String name, String address, Double hourlyRate)
-            : base (employeeID, name, address)
+        public ChangeHourlyTransaction(Int32 employeeID, Double hourlyRate)
+            : base(employeeID)
         {
             _hourlyRate = hourlyRate;
         }
 
-        protected override IPaymentClassification Classification
+        protected override IPaymentClassification PaymentClassification
         {
             get
             {
@@ -22,13 +25,12 @@ namespace Payroll.Model.Transactions
             }
         }
 
-        protected override IPaymentSchedule Schedule
+        protected override IPaymentSchedule PaymentSchedule
         {
             get
             {
                 return new WeeklyPaymentSchedule();
             }
         }
-        
     }
 }
