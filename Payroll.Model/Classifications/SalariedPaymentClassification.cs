@@ -4,9 +4,16 @@ namespace Payroll.Model.Classifications
 {
     public class SalariedPaymentClassification : IPaymentClassification
     {
-        public SalariedPaymentClassification()
+        private readonly Double _salary;
+
+        public SalariedPaymentClassification(Double salary)
         {
-            
+            _salary = salary;
+        }
+
+        public Double GetSalary()
+        {
+            return _salary;
         }
     }
 }

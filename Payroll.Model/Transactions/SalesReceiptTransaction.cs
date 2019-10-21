@@ -25,7 +25,7 @@ namespace Payroll.Model.Transactions
             Employee employee = PayrollDatabase.GetEmployee(_employeeID);
             if (employee != null)
             {
-                if (employee.Classification is ComissionedPaymentClassification commisionedClassification)
+                if (employee.Classification is CommissionedPaymentClassification commisionedClassification)
                 {
                     commisionedClassification.AddSalesReceipt(new SalesReceipt(_date, _amount));
                 }

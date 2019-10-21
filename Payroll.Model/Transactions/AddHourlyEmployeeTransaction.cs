@@ -16,7 +16,7 @@ namespace Payroll.Model.Transactions
 
         protected override IPaymentClassification MakePaymentClassification()
         {
-            return new HourlyPaymentClassification();
+            return new HourlyPaymentClassification(_hourlyRate);
         }
 
         protected override IPaymentSchedule MakePaymentSchedule()

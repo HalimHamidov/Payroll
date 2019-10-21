@@ -5,13 +5,29 @@ using Payroll.Model.Entities;
 
 namespace Payroll.Model.Classifications
 {
-    public class ComissionedPaymentClassification : IPaymentClassification
+    public class CommissionedPaymentClassification : IPaymentClassification
     {
+        private readonly Double _salary;
+
+        private readonly Double _commissionRate;
+
         private readonly ICollection<SalesReceipt> _salesReceipts;
 
-        public ComissionedPaymentClassification()
+        public CommissionedPaymentClassification(Double salary, Double commissionRate)
         {
+            _salary = salary;
+            _commissionRate = commissionRate;
             _salesReceipts = new List<SalesReceipt>();
+        }
+
+        public Double GetSalary()
+        {
+            return _salary;
+        }
+
+        public Double GetCommissionRate()
+        {
+            return _commissionRate;
         }
 
         public void AddSalesReceipt(SalesReceipt salesReceipt)

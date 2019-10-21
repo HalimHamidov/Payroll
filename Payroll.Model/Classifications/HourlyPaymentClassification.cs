@@ -7,11 +7,19 @@ namespace Payroll.Model.Classifications
 {
     public class HourlyPaymentClassification : IPaymentClassification
     {
+        private readonly Double _hourlyRate;
+
         private readonly ICollection<TimeCard> _timeCards;
 
-        public HourlyPaymentClassification()
+        public HourlyPaymentClassification(Double hourlyRate)
         {
+            _hourlyRate = hourlyRate;
             _timeCards = new List<TimeCard>();
+        }
+
+        public Double GetHourlyRate()
+        {
+            return _hourlyRate;
         }
 
         public void AddTimeCard(TimeCard timeCard)

@@ -19,12 +19,12 @@ namespace Payroll.Model.Transactions
 
         protected override IPaymentClassification MakePaymentClassification()
         {
-            return new HourlyPaymentClassification();
+            return new CommissionedPaymentClassification(_salary, _commissionRate);
         }
 
         protected override IPaymentSchedule MakePaymentSchedule()
         {
-            return new WeeklyPaymentSchedule();
+            return new BiweeklyPaymentSchedule();
         }
     }
 }
