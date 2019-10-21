@@ -11,9 +11,12 @@ namespace Payroll.Model.Classifications
             _salary = salary;
         }
 
-        public Double GetSalary()
+        public Double Salary
         {
-            return _salary;
+            get
+            {
+                return _salary;
+            }
         }
     }
 }

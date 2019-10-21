@@ -20,14 +20,20 @@ namespace Payroll.Model.Classifications
             _salesReceipts = new List<SalesReceipt>();
         }
 
-        public Double GetSalary()
+        public Double Salary
         {
-            return _salary;
+            get
+            {
+                return _salary;
+            }
         }
 
-        public Double GetCommissionRate()
+        public Double CommissionRate
         {
-            return _commissionRate;
+            get
+            {
+                return _commissionRate;
+            }
         }
 
         public void AddSalesReceipt(SalesReceipt salesReceipt)

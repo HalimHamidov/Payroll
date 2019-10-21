@@ -17,9 +17,12 @@ namespace Payroll.Model.Classifications
             _timeCards = new List<TimeCard>();
         }
 
-        public Double GetHourlyRate()
+        public Double HourlyRate
         {
-            return _hourlyRate;
+            get
+            {
+                return _hourlyRate;
+            }
         }
 
         public void AddTimeCard(TimeCard timeCard)

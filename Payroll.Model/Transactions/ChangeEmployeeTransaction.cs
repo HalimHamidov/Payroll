@@ -16,6 +16,16 @@ namespace Payroll.Model.Transactions
         public void Execute()
         {
             Employee employee = PayrollDatabase.GetEmployee(_employeeID);
+            if (employee != null)
+            {
+                Change(employee);
+            }
+            else
+            {
+                throw new InvalidOperationException("Работник не найден.");
+            }
         }
+
+        protected abstract void Change(Employee employee);
     }
 }

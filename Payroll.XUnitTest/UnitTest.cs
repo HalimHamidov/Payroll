@@ -25,7 +25,7 @@ namespace Payroll.XUnitTest
             IPaymentClassification paymentClassification = employee.Classification;
             Assert.True(paymentClassification is SalariedPaymentClassification);
             SalariedPaymentClassification salariedClassification = paymentClassification as SalariedPaymentClassification;
-            Assert.Equal(1000.0, salariedClassification.GetSalary(), 3);
+            Assert.Equal(1000.0, salariedClassification.Salary, 3);
 
             IPaymentSchedule paymentSchedule = employee.Schedule;
             Assert.True(paymentSchedule is MonthlyPaymentSchedule);
@@ -50,7 +50,7 @@ namespace Payroll.XUnitTest
             IPaymentClassification paymentClassification = employee.Classification;
             Assert.True(paymentClassification is HourlyPaymentClassification);
             HourlyPaymentClassification hourlyClassification = paymentClassification as HourlyPaymentClassification;
-            Assert.Equal(100.0, hourlyClassification.GetHourlyRate(), 3);
+            Assert.Equal(100.0, hourlyClassification.HourlyRate, 3);
 
             IPaymentSchedule paymentSchedule = employee.Schedule;
             Assert.True(paymentSchedule is WeeklyPaymentSchedule);
@@ -75,8 +75,8 @@ namespace Payroll.XUnitTest
             IPaymentClassification paymentClassification = employee.Classification;
             Assert.True(paymentClassification is CommissionedPaymentClassification);
             CommissionedPaymentClassification commissionedClassification = paymentClassification as CommissionedPaymentClassification;
-            Assert.Equal(1000.0, commissionedClassification.GetSalary(), 3);
-            Assert.Equal(10.0, commissionedClassification.GetCommissionRate(), 3);
+            Assert.Equal(1000.0, commissionedClassification.Salary, 3);
+            Assert.Equal(10.0, commissionedClassification.CommissionRate, 3);
 
             IPaymentSchedule paymentSchedule = employee.Schedule;
             Assert.True(paymentSchedule is BiweeklyPaymentSchedule);
