@@ -7,11 +7,33 @@ namespace Payroll.Model.Affilations
 {
     public class UnionAffilation : IAffilation
     {
+        private readonly Int32 _unionMemberID;
+
+        private readonly Double _dues;
+
         private readonly ICollection<ServiceCharge> _serviceCharges;
 
-        public UnionAffilation()
+        public UnionAffilation(Int32 unionMemberID, Double dues)
         {
+            _unionMemberID = unionMemberID;
+            _dues = dues;
             _serviceCharges = new List<ServiceCharge>();
+        }
+
+        public Int32 UnionMemberID
+        {
+            get
+            {
+                return _unionMemberID;
+            }
+        }
+
+        public Double Dues
+        {
+            get
+            {
+                return _dues;
+            }
         }
 
         public void AddServiceCharge(ServiceCharge serviceCharge)

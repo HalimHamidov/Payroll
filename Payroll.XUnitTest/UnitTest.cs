@@ -160,10 +160,10 @@ namespace Payroll.XUnitTest
             Assert.NotNull(employee);
             Assert.True(employee.Affilation is NoAffilation);
 
-            UnionAffilation affilation = new UnionAffilation();
+            Int32 memberID = 86;
+            UnionAffilation affilation = new UnionAffilation(memberID, 5.95);
             employee.Affilation = affilation;
 
-            Int32 memberID = 86;
             PayrollDatabase.AddUnionMember(memberID, employee);
 
             ServiceChargeTransaction transaction2 = new ServiceChargeTransaction(memberID, new DateTime(2019, 1, 1), 12.95);
@@ -320,6 +320,54 @@ namespace Payroll.XUnitTest
 
             IPaymentMethod paymentMethod = employee.PaymentMethod;
             Assert.True(paymentMethod is HoldMethod);
+        }
+
+        [Fact]
+        public void TestChangeMemberTransaction()
+        {
+            Int32 employeeID = 16;
+            AddHourlyTransaction transaction1 = new AddHourlyTransaction(employeeID, "Matthew", "Home", 15.25);
+            transaction1.Execute();
+
+            Int32 memberID = 7743;
+            ChangeMemberTransaction transaction2 = new ChangeMemberTransaction(employeeID, memberID, 99.42);
+            transaction2.Execute();
+
+            Employee employee = PayrollDatabase.GetEmployee(employeeID);
+            Assert.NotNull(employee);
+
+            IAffilation affilation = employee.Affilation;
+            Assert.NotNull(affilation);
+            Assert.True(affilation is UnionAffilation);
+            UnionAffilation unionAffilation = affilation as UnionAffilation;
+            Assert.Equal(99.42, unionAffilation.Dues, 3);
+
+            Employee member = PayrollDatabase.GetUnionMember(memberID);
+            Assert.NotNull(member);
+            Assert.Equal(employee, member);
+        }
+
+        [Fact]
+        public void TestChangeUnaffilatedTransaction()
+        {
+            Int32 employeeID = 17;
+            AddHourlyTransaction transaction1 = new AddHourlyTransaction(employeeID, "Matthew", "Home", 15.25);
+            transaction1.Execute();
+
+            Int32 memberID = 7744;
+            ChangeUnaffilatedTransaction transaction2 = new ChangeUnaffilatedTransaction(employeeID);
+            transaction2.Execute();
+
+            Employee employee = PayrollDatabase.GetEmployee(employeeID);
+            Assert.NotNull(employee);
+
+            IAffilation affilation = employee.Affilation;
+            Assert.NotNull(affilation);
+
+            Assert.True(affilation is NoAffilation);
+
+            Employee member = PayrollDatabase.GetUnionMember(memberID);
+            Assert.Null(member);
         }
     }
 }
