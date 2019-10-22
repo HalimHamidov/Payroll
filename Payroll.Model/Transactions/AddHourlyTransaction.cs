@@ -4,21 +4,21 @@ using Payroll.Model.Schedules;
 
 namespace Payroll.Model.Transactions
 {
-    public class AddSalariedEmployeeTransaction : AddEmployeeTransaction
+    public class AddHourlyTransaction : AddEmployeeTransaction
     {
-        private readonly Double _salary;
+        private readonly Double _hourlyRate;
 
-        public AddSalariedEmployeeTransaction(Int32 employeeID, String name, String address, Double salary)
+        public AddHourlyTransaction(Int32 employeeID, String name, String address, Double hourlyRate)
             : base (employeeID, name, address)
         {
-            _salary = salary;
+            _hourlyRate = hourlyRate;
         }
 
         protected override IPaymentClassification PaymentClassification
         {
             get
             {
-                return new SalariedPaymentClassification(_salary);
+                return new HourlyPaymentClassification(_hourlyRate);
             }
         }
 
@@ -26,8 +26,9 @@ namespace Payroll.Model.Transactions
         {
             get
             {
-                return new MonthlyPaymentSchedule();
+                return new WeeklyPaymentSchedule();
             }
         }
+        
     }
 }

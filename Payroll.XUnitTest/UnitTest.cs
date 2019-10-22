@@ -16,7 +16,7 @@ namespace Payroll.XUnitTest
         public void TestAddSalariedEmployee()
         {
             Int32 employeeID = 1;
-            AddSalariedEmployeeTransaction transaction = new AddSalariedEmployeeTransaction(employeeID, "Bob", "Home", 1000.0);
+            AddSalariedTransaction transaction = new AddSalariedTransaction(employeeID, "Bob", "Home", 1000.0);
             transaction.Execute();
 
             Employee employee = PayrollDatabase.GetEmployee(employeeID);
@@ -41,7 +41,7 @@ namespace Payroll.XUnitTest
         public void TestAddHourlyEmployee()
         {
             Int32 employeeID = 2;
-            AddHourlyEmployeeTransaction transaction = new AddHourlyEmployeeTransaction(employeeID, "Michael", "Home", 100.0);
+            AddHourlyTransaction transaction = new AddHourlyTransaction(employeeID, "Michael", "Home", 100.0);
             transaction.Execute();
 
             Employee employee = PayrollDatabase.GetEmployee(employeeID);
@@ -66,7 +66,7 @@ namespace Payroll.XUnitTest
         public void TestAddCommissionedEmployee()
         {
             Int32 employeeID = 3;
-            AddCommissionedEmployeeTransaction transaction = new AddCommissionedEmployeeTransaction(employeeID, "Jacob", "Home", 1000.0, 10.0);
+            AddCommissionedTransaction transaction = new AddCommissionedTransaction(employeeID, "Jacob", "Home", 1000.0, 10.0);
             transaction.Execute();
 
             Employee employee = PayrollDatabase.GetEmployee(employeeID);
@@ -92,7 +92,7 @@ namespace Payroll.XUnitTest
         public void TestDeleteEmployee()
         {
             Int32 employeeID = 4;
-            AddCommissionedEmployeeTransaction transaction1 = new AddCommissionedEmployeeTransaction(employeeID, "William", "Home", 2500.0, 3.2);
+            AddCommissionedTransaction transaction1 = new AddCommissionedTransaction(employeeID, "William", "Home", 2500.0, 3.2);
             transaction1.Execute();
 
             Employee employee1 = PayrollDatabase.GetEmployee(employeeID);
@@ -109,7 +109,7 @@ namespace Payroll.XUnitTest
         public void TestAddTimeCard()
         {
             Int32 employeeID = 5;
-            AddHourlyEmployeeTransaction transaction1 = new AddHourlyEmployeeTransaction(employeeID, "Bill", "Home", 15.25);
+            AddHourlyTransaction transaction1 = new AddHourlyTransaction(employeeID, "Bill", "Home", 15.25);
             transaction1.Execute();
 
             TimeCardTransaction transaction2 = new TimeCardTransaction(employeeID, new DateTime(2019, 1, 1), 8.0);
@@ -131,7 +131,7 @@ namespace Payroll.XUnitTest
         public void TestAddSalesReceipt()
         {
             Int32 employeeID = 6;
-            AddCommissionedEmployeeTransaction transaction1 = new AddCommissionedEmployeeTransaction(employeeID, "James", "Home", 1000.0, 3.2);
+            AddCommissionedTransaction transaction1 = new AddCommissionedTransaction(employeeID, "James", "Home", 1000.0, 3.2);
             transaction1.Execute();
 
             SalesReceiptTransaction transaction2 = new SalesReceiptTransaction(employeeID, new DateTime(2019, 1, 1), 100.0);
@@ -153,7 +153,7 @@ namespace Payroll.XUnitTest
         public void TestAddServiceCharge()
         {
             Int32 employeeID = 7;
-            AddSalariedEmployeeTransaction transaction1 = new AddSalariedEmployeeTransaction(employeeID, "Daniel", "Home", 1000.0);
+            AddSalariedTransaction transaction1 = new AddSalariedTransaction(employeeID, "Daniel", "Home", 1000.0);
             transaction1.Execute();
 
             Employee employee = PayrollDatabase.GetEmployee(employeeID);
@@ -178,7 +178,7 @@ namespace Payroll.XUnitTest
         public void TestChangeNameTransaction()
         {
             Int32 employeeID = 8;
-            AddHourlyEmployeeTransaction transaction1 = new AddHourlyEmployeeTransaction(employeeID, "Benjamin", "Home", 15.25);
+            AddHourlyTransaction transaction1 = new AddHourlyTransaction(employeeID, "Benjamin", "Home", 15.25);
             transaction1.Execute();
 
             ChangeNameTransaction transaction2 = new ChangeNameTransaction(employeeID, "Bob");
@@ -193,7 +193,7 @@ namespace Payroll.XUnitTest
         public void TestChangeAddressTransaction()
         {
             Int32 employeeID = 9;
-            AddSalariedEmployeeTransaction transaction1 = new AddSalariedEmployeeTransaction(employeeID, "Logan", "Home", 915.25);
+            AddSalariedTransaction transaction1 = new AddSalariedTransaction(employeeID, "Logan", "Home", 915.25);
             transaction1.Execute();
 
             ChangeAddressTransaction transaction2 = new ChangeAddressTransaction(employeeID, "Office");
@@ -208,7 +208,7 @@ namespace Payroll.XUnitTest
         public void TestChangeHourlyTransaction()
         {
             Int32 employeeID = 10;
-            AddCommissionedEmployeeTransaction transaction1 = new AddCommissionedEmployeeTransaction(employeeID, "Matthew", "Home", 1000.0, 3.2);
+            AddCommissionedTransaction transaction1 = new AddCommissionedTransaction(employeeID, "Matthew", "Home", 1000.0, 3.2);
             transaction1.Execute();
 
             ChangeHourlyTransaction transaction2 = new ChangeHourlyTransaction(employeeID, 27.52);
@@ -224,6 +224,102 @@ namespace Payroll.XUnitTest
 
             IPaymentSchedule paymentSchedule = employee.PaymentSchedule;
             Assert.True(paymentSchedule is WeeklyPaymentSchedule);
+        }
+
+        [Fact]
+        public void TestChangeSalariedTransaction()
+        {
+            Int32 employeeID = 11;
+            AddCommissionedTransaction transaction1 = new AddCommissionedTransaction(employeeID, "Matthew", "Home", 1000.0, 3.2);
+            transaction1.Execute();
+
+            ChangeSalariedTransaction transaction2 = new ChangeSalariedTransaction(employeeID, 1150.0);
+            transaction2.Execute();
+
+            Employee employee = PayrollDatabase.GetEmployee(employeeID);
+            Assert.NotNull(employee);
+
+            IPaymentClassification paymentClassification = employee.PaymentClassification;
+            Assert.True(paymentClassification is SalariedPaymentClassification);
+            SalariedPaymentClassification salariedClassification = paymentClassification as SalariedPaymentClassification;
+            Assert.Equal(1150.0, salariedClassification.Salary, 3);
+
+            IPaymentSchedule paymentSchedule = employee.PaymentSchedule;
+            Assert.True(paymentSchedule is MonthlyPaymentSchedule);
+        }
+
+        [Fact]
+        public void TestChangeCommissionedTransaction()
+        {
+            Int32 employeeID = 12;
+            AddHourlyTransaction transaction1 = new AddHourlyTransaction(employeeID, "Matthew", "Home", 15.25);
+            transaction1.Execute();
+
+            ChangeCommissionedTransaction transaction2 = new ChangeCommissionedTransaction(employeeID, 1200.0, 2.5);
+            transaction2.Execute();
+
+            Employee employee = PayrollDatabase.GetEmployee(employeeID);
+            Assert.NotNull(employee);
+
+            IPaymentClassification paymentClassification = employee.PaymentClassification;
+            Assert.True(paymentClassification is CommissionedPaymentClassification);
+            CommissionedPaymentClassification commissionedClassification = paymentClassification as CommissionedPaymentClassification;
+            Assert.Equal(1200.0, commissionedClassification.Salary, 3);
+            Assert.Equal(2.5, commissionedClassification.CommissionRate, 3);
+
+            IPaymentSchedule paymentSchedule = employee.PaymentSchedule;
+            Assert.True(paymentSchedule is BiweeklyPaymentSchedule);
+        }
+
+        [Fact]
+        public void TestChangeDirectTransaction()
+        {
+            Int32 employeeID = 13;
+            AddHourlyTransaction transaction1 = new AddHourlyTransaction(employeeID, "Matthew", "Home", 15.25);
+            transaction1.Execute();
+
+            ChangeDirectTransaction transaction2 = new ChangeDirectTransaction(employeeID, "Bank of America", "123-456-789");
+            transaction2.Execute();
+
+            Employee employee = PayrollDatabase.GetEmployee(employeeID);
+            Assert.NotNull(employee);
+
+            IPaymentMethod paymentMethod = employee.PaymentMethod;
+            Assert.True(paymentMethod is DirectMethod);
+        }
+
+        [Fact]
+        public void TestChangeMailTransaction()
+        {
+            Int32 employeeID = 14;
+            AddHourlyTransaction transaction1 = new AddHourlyTransaction(employeeID, "Matthew", "Home", 15.25);
+            transaction1.Execute();
+
+            ChangeMailTransaction transaction2 = new ChangeMailTransaction(employeeID, "132 S. Central St. Middle Village, NY 11379");
+            transaction2.Execute();
+
+            Employee employee = PayrollDatabase.GetEmployee(employeeID);
+            Assert.NotNull(employee);
+
+            IPaymentMethod paymentMethod = employee.PaymentMethod;
+            Assert.True(paymentMethod is MailMethod);
+        }
+
+        [Fact]
+        public void TestChangeHoldTransaction()
+        {
+            Int32 employeeID = 15;
+            AddHourlyTransaction transaction1 = new AddHourlyTransaction(employeeID, "Matthew", "Home", 15.25);
+            transaction1.Execute();
+
+            ChangeHoldTransaction transaction2 = new ChangeHoldTransaction(employeeID);
+            transaction2.Execute();
+
+            Employee employee = PayrollDatabase.GetEmployee(employeeID);
+            Assert.NotNull(employee);
+
+            IPaymentMethod paymentMethod = employee.PaymentMethod;
+            Assert.True(paymentMethod is HoldMethod);
         }
     }
 }

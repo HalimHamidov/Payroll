@@ -4,24 +4,21 @@ using Payroll.Model.Schedules;
 
 namespace Payroll.Model.Transactions
 {
-    public class AddCommissionedEmployeeTransaction : AddEmployeeTransaction
+    public class AddSalariedTransaction : AddEmployeeTransaction
     {
         private readonly Double _salary;
 
-        private readonly Double _commissionRate;
-
-        public AddCommissionedEmployeeTransaction(Int32 employeeID, String name, String address, Double salary, Double commissionRate)
+        public AddSalariedTransaction(Int32 employeeID, String name, String address, Double salary)
             : base (employeeID, name, address)
         {
             _salary = salary;
-            _commissionRate = commissionRate;
         }
 
         protected override IPaymentClassification PaymentClassification
         {
             get
             {
-                return new CommissionedPaymentClassification(_salary, _commissionRate);
+                return new SalariedPaymentClassification(_salary);
             }
         }
 
@@ -29,7 +26,7 @@ namespace Payroll.Model.Transactions
         {
             get
             {
-                return new BiweeklyPaymentSchedule();
+                return new MonthlyPaymentSchedule();
             }
         }
     }
