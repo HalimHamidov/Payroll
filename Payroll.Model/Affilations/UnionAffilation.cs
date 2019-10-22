@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Payroll.Model.Entities;
+using Payroll.Model.Utilities;
 
 namespace Payroll.Model.Affilations
 {
@@ -52,6 +53,15 @@ namespace Payroll.Model.Affilations
             }
 
             return null;
+        }
+
+        public Double CalculateDeductions(Paycheck paycheck)
+        {
+            Int32 fridays = DateUtility.NumberOfDaysOfWeekInPeriod(DayOfWeek.Friday, paycheck.StartDate, paycheck.EndDate);
+
+            Double totalDues = _dues * fridays;
+
+            return totalDues;
         }
     }
 }

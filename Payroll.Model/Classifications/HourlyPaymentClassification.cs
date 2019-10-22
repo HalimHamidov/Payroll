@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Payroll.Model.Entities;
+using Payroll.Model.Utilities;
 
 namespace Payroll.Model.Classifications
 {
@@ -41,6 +42,29 @@ namespace Payroll.Model.Classifications
             }
 
             return null;
+        }
+
+        public Double CalculatePay(Paycheck paycheck)
+        {
+            Double totalPay = 0.0;
+
+            foreach (TimeCard timeCard in _timeCards)
+            {
+                if (DateUtility.IsInPeriod(timeCard.Date, paycheck.StartDate, paycheck.EndDate))
+                {
+                    totalPay += CalculatePayForTimeCard(timeCard);
+                }
+            }
+
+            return totalPay;
+        }
+
+        private Double CalculatePayForTimeCard(TimeCard timeCard)
+        {
+            Double overtimeHours = Math.Max(0.0, timeCard.Hours - 8.0);
+            Double normalHours = timeCard.Hours - overtimeHours;
+
+            return _hourlyRate * (normalHours + 1.5 * overtimeHours);
         }
     }
 }

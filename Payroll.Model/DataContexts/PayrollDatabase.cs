@@ -32,6 +32,11 @@ namespace Payroll.Model.DataContexts
                 _employees.Remove(employeeID);
             }
         }
+
+        public static IEnumerable<Int32> GetEmployeeIDs()
+        {
+            return _employees.Keys;
+        }
     
         public static void AddUnionMember(Int32 unionMemberID, Employee employee)
         {

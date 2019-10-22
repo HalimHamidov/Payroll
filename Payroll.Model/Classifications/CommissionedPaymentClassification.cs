@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Payroll.Model.Entities;
+using Payroll.Model.Utilities;
 
 namespace Payroll.Model.Classifications
 {
@@ -53,5 +54,26 @@ namespace Payroll.Model.Classifications
 
             return null;
         }
+
+        public Double CalculatePay(Paycheck paycheck)
+        {
+            Double totalPay = _salary;
+
+            foreach (SalesReceipt salesReceipt in _salesReceipts)
+            {
+                if (DateUtility.IsInPeriod(salesReceipt.Date, paycheck.StartDate, paycheck.EndDate))
+                {
+                    totalPay += CalculatePayForSalesReceipt(salesReceipt);
+                }
+            }
+
+            return totalPay;
+        }
+
+        private Double CalculatePayForSalesReceipt(SalesReceipt salesReceipt)
+        {
+            return _commissionRate * salesReceipt.Amount;
+        }
+
     }
 }

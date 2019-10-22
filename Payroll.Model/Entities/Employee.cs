@@ -28,5 +28,28 @@ namespace Payroll.Model.Entities
         public IPaymentMethod PaymentMethod { get; set; }
 
         public IAffilation Affilation { get; set; }
+
+        public Boolean IsPayDate(DateTime date)
+        {
+            return PaymentSchedule.IsPayDate(date);
+        }
+
+        public void Payday(Paycheck paycheck)
+        {
+            Double grossPay = PaymentClassification.CalculatePay(paycheck);
+            Double deductions = Affilation.CalculateDeductions(paycheck);
+            Double netPay = grossPay - deductions;
+
+            paycheck.GrossPay = grossPay;
+            paycheck.Deductions = deductions;
+            paycheck.NetPay = netPay;
+
+            PaymentMethod.Pay(paycheck);
+        }
+
+        public DateTime GetPayPeriodStartDate(DateTime date)
+        {
+            return PaymentSchedule.GetPayPeriodStartDate(date);
+        }
     }
 }

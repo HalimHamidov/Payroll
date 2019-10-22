@@ -1,4 +1,5 @@
 using System;
+using Payroll.Model.Entities;
 
 namespace Payroll.Model.Classifications
 {
@@ -17,6 +18,11 @@ namespace Payroll.Model.Classifications
             {
                 return _salary;
             }
+        }
+
+        public Double CalculatePay(Paycheck paycheck)
+        {
+            return _salary;
         }
     }
 }

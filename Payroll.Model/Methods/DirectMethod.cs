@@ -1,4 +1,5 @@
 ﻿using System;
+using Payroll.Model.Entities;
 
 namespace Payroll.Model.Methods
 {
@@ -12,6 +13,11 @@ namespace Payroll.Model.Methods
         {
             _bank = bank;
             _account = account;
+        }
+
+        public void Pay(Paycheck paycheck)
+        {
+            paycheck.SetField("Disposition", "Direct");
         }
     }
 }

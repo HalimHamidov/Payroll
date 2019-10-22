@@ -369,5 +369,184 @@ namespace Payroll.XUnitTest
             Employee member = PayrollDatabase.GetUnionMember(memberID);
             Assert.Null(member);
         }
+
+        [Fact]
+        public void TestPaySingleSalariedEmployee()
+        {
+            Int32 employeeID = 18;
+            AddSalariedTransaction transaction1 = new AddSalariedTransaction(employeeID, "Logan", "Home", 915.25);
+            transaction1.Execute();
+
+            DateTime payDate = new DateTime(2018, 12, 31);
+            PaydayTransaction transaction2 = new PaydayTransaction(payDate);
+            transaction2.Execute();
+
+            Double grossPay = 915.25;
+            Double deductions = 0.0;
+
+            ValidatePaycheck(transaction2, employeeID, payDate, grossPay, deductions, grossPay - deductions);
+        }
+
+        [Fact]
+        public void TestPaySingleSalariedEmployeeOnWrongDate()
+        {
+            Int32 employeeID = 19;
+            AddSalariedTransaction transaction1 = new AddSalariedTransaction(employeeID, "Logan", "Home", 915.25);
+            transaction1.Execute();
+
+            DateTime payDate = new DateTime(2019, 1, 1);
+            PaydayTransaction transaction2 = new PaydayTransaction(payDate);
+            transaction2.Execute();
+
+            Paycheck paycheck = transaction2.GetPaycheck(employeeID);
+            Assert.Null(paycheck);
+        }
+
+        [Fact]
+        public void TestPaySingleHourlyEmployeeNoTimeCards()
+        {
+            Int32 employeeID = 20;
+            AddHourlyTransaction transaction1 = new AddHourlyTransaction(employeeID, "Bill", "Home", 15.25);
+            transaction1.Execute();
+
+            DateTime payDate = new DateTime(2019, 1, 4);
+            PaydayTransaction transaction2 = new PaydayTransaction(payDate);
+            transaction2.Execute();
+
+            ValidatePaycheck(transaction2, employeeID, payDate, 0.0, 0.0, 0.0);
+        }
+
+        [Fact]
+        public void TestPaySingleHourlyEmployeeOneTimeCard()
+        {
+            Int32 employeeID = 21;
+            AddHourlyTransaction transaction1 = new AddHourlyTransaction(employeeID, "Bill", "Home", 15.25);
+            transaction1.Execute();
+
+            DateTime payDate = new DateTime(2019, 1, 4);
+            TimeCardTransaction transaction2 = new TimeCardTransaction(employeeID, payDate, 2.0);
+            transaction2.Execute();
+
+            PaydayTransaction transaction3 = new PaydayTransaction(payDate);
+            transaction3.Execute();
+
+            ValidatePaycheck(transaction3, employeeID, payDate, 30.5, 0.0, 30.5);
+        }
+
+        [Fact]
+        public void TestPaySingleHourlyEmployeeOvertimeOneTimeCard()
+        {
+            Int32 employeeID = 22;
+            AddHourlyTransaction transaction1 = new AddHourlyTransaction(employeeID, "Bill", "Home", 15.25);
+            transaction1.Execute();
+
+            DateTime payDate = new DateTime(2019, 1, 4);
+            TimeCardTransaction transaction2 = new TimeCardTransaction(employeeID, payDate, 9.0);
+            transaction2.Execute();
+
+            PaydayTransaction transaction3 = new PaydayTransaction(payDate);
+            transaction3.Execute();
+
+            Double grossPay = 15.25 * (8.0 + 1.5 * 1.0);
+            Double deductions = 0.0;
+
+            ValidatePaycheck(transaction3, employeeID, payDate, grossPay, deductions, grossPay - deductions);
+        }
+
+        [Fact]
+        public void TestPaySingleHourlyEmployeeOnWrongDate()
+        {
+            Int32 employeeID = 23;
+            AddHourlyTransaction transaction1 = new AddHourlyTransaction(employeeID, "Bill", "Home", 15.25);
+            transaction1.Execute();
+
+            DateTime payDate = new DateTime(2019, 1, 1);
+            TimeCardTransaction transaction2 = new TimeCardTransaction(employeeID, payDate, 9.0);
+            transaction2.Execute();
+
+            PaydayTransaction transaction3 = new PaydayTransaction(payDate);
+            transaction3.Execute();
+
+            Paycheck paycheck = transaction3.GetPaycheck(employeeID);
+            Assert.Null(paycheck);
+        }
+
+        [Fact]
+        public void TestPaySingleHourlyEmployeeTwoTimeCard()
+        {
+            Int32 employeeID = 24;
+            AddHourlyTransaction transaction1 = new AddHourlyTransaction(employeeID, "Bill", "Home", 15.25);
+            transaction1.Execute();
+
+            DateTime payDate = new DateTime(2019, 1, 4);
+            TimeCardTransaction transaction2 = new TimeCardTransaction(employeeID, payDate, 2.0);
+            transaction2.Execute();
+            TimeCardTransaction transaction3 = new TimeCardTransaction(employeeID, payDate.AddDays(-1), 5.0);
+            transaction3.Execute();
+
+            PaydayTransaction transaction4 = new PaydayTransaction(payDate);
+            transaction4.Execute();
+
+            Double grossPay = 15.25 * 7.0;
+            Double deductions = 0.0;
+
+            ValidatePaycheck(transaction4, employeeID, payDate, grossPay, deductions, grossPay - deductions);
+        }
+
+        [Fact]
+        public void TestPaySingleHourlyEmployeeTwoTimeCardInDifferentPeriods()
+        {
+            Int32 employeeID = 25;
+            AddHourlyTransaction transaction1 = new AddHourlyTransaction(employeeID, "Bill", "Home", 15.25);
+            transaction1.Execute();
+
+            DateTime payDate = new DateTime(2019, 1, 4);
+            TimeCardTransaction transaction2 = new TimeCardTransaction(employeeID, payDate, 2.0);
+            transaction2.Execute();
+            TimeCardTransaction transaction3 = new TimeCardTransaction(employeeID, payDate.AddDays(-7), 5.0);
+            transaction3.Execute();
+
+            PaydayTransaction transaction4 = new PaydayTransaction(payDate);
+            transaction4.Execute();
+
+            Double grossPay = 15.25 * 2.0;
+            Double deductions = 0.0;
+
+            ValidatePaycheck(transaction4, employeeID, payDate, grossPay, deductions, grossPay - deductions);
+        }
+
+        [Fact]
+        public void TestSalariedUnionMemberDues()
+        {
+            Int32 employeeID = 26;
+            AddSalariedTransaction transaction1 = new AddSalariedTransaction(employeeID, "Bill", "Home", 1000.0);
+            transaction1.Execute();
+
+            Int32 memberID = 7734;
+            ChangeMemberTransaction transaction2 = new ChangeMemberTransaction(employeeID, memberID, 9.42);
+            transaction2.Execute();
+
+            DateTime payDate = new DateTime(2018, 1, 31);
+            PaydayTransaction transaction3 = new PaydayTransaction(payDate);
+            transaction3.Execute();
+
+            Double grossPay = 1000.0;
+            Double deductions = 9.42 * 4.0;
+
+            ValidatePaycheck(transaction3, employeeID, payDate, grossPay, deductions, grossPay - deductions);
+        }
+
+        #region Utilities
+        private void ValidatePaycheck(PaydayTransaction transaction, Int32 employeeID, DateTime payDate, Double grossPay, Double deductions, Double netPay)
+        {
+            Paycheck paycheck = transaction.GetPaycheck(employeeID);
+            Assert.NotNull(paycheck);
+            Assert.Equal(payDate, paycheck.EndDate);
+            Assert.Equal(grossPay, paycheck.GrossPay, 3);
+            Assert.Equal(deductions, paycheck.Deductions, 3);
+            Assert.Equal(netPay, paycheck.NetPay, 3);
+            Assert.Equal("Hold", paycheck.GetField("Disposition"));
+        }
+        #endregion
     }
 }
