@@ -14,7 +14,7 @@ namespace Payroll.Model.Transactions
             _hourlyRate = hourlyRate;
         }
 
-        protected override IPaymentClassification Classification
+        protected override IPaymentClassification PaymentClassification
         {
             get
             {
@@ -22,7 +22,7 @@ namespace Payroll.Model.Transactions
             }
         }
 
-        protected override IPaymentSchedule Schedule
+        protected override IPaymentSchedule PaymentSchedule
         {
             get
             {

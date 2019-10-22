@@ -23,20 +23,20 @@ namespace Payroll.Model.Transactions
             _address = address;
         }
 
-        protected abstract IPaymentClassification Classification
+        protected abstract IPaymentClassification PaymentClassification
         {
             get;
         }
 
-        protected abstract IPaymentSchedule Schedule
+        protected abstract IPaymentSchedule PaymentSchedule
         {
             get;
         }
 
         public void Execute()
         {
-            IPaymentClassification paymentClassification = Classification;
-            IPaymentSchedule paymentSchedule = Schedule;
+            IPaymentClassification paymentClassification = PaymentClassification;
+            IPaymentSchedule paymentSchedule = PaymentSchedule;
             IPaymentMethod paymentMethod = new HoldMethod();
             IAffilation affilation = new NoAffilation();
 
