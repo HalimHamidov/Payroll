@@ -494,7 +494,7 @@ namespace Payroll.XUnitTest
         }
 
         [Fact]
-        public void TestPaySingleHourlyEmployeeTwoTimeCardInDifferentPeriods()
+        public void TestPaySingleHourlyEmployeeTimeCardsInDifferentPeriods()
         {
             Int32 employeeID = 25;
             AddHourlyTransaction transaction1 = new AddHourlyTransaction(employeeID, "Bill", "Home", 15.25);
@@ -534,6 +534,65 @@ namespace Payroll.XUnitTest
             Double deductions = 9.42 * 4.0;
 
             ValidatePaycheck(transaction3, employeeID, payDate, grossPay, deductions, grossPay - deductions);
+        }
+
+        [Fact]
+        public void TestHourlyUnionMemberServiceCharge()
+        {
+            Int32 employeeID = 27;
+            AddHourlyTransaction transaction1 = new AddHourlyTransaction(employeeID, "Bill", "Home", 15.25);
+            transaction1.Execute();
+
+            Int32 memberID = 7735;
+            ChangeMemberTransaction transaction2 = new ChangeMemberTransaction(employeeID, memberID, 9.42);
+            transaction2.Execute();
+
+            DateTime payDate = new DateTime(2019, 1, 4);
+            ServiceChargeTransaction transaction3 = new ServiceChargeTransaction(memberID, payDate, 19.42);
+            transaction3.Execute();
+
+            TimeCardTransaction transaction4 = new TimeCardTransaction(employeeID, payDate, 8.0);
+            transaction4.Execute();
+
+            PaydayTransaction transaction5 = new PaydayTransaction(payDate);
+            transaction5.Execute();
+
+            Double grossPay = 15.25 * 8.0;
+            Double deductions = 9.42 * 1.0 + 19.42;
+
+            ValidatePaycheck(transaction5, employeeID, payDate, grossPay, deductions, grossPay - deductions);
+        }
+
+        [Fact]
+        public void TestHourlyUnionMemberServiceChargesInDifferentPeriods()
+        {
+            Int32 employeeID = 28;
+            AddHourlyTransaction transaction1 = new AddHourlyTransaction(employeeID, "Bill", "Home", 15.25);
+            transaction1.Execute();
+
+            Int32 memberID = 7736;
+            ChangeMemberTransaction transaction2 = new ChangeMemberTransaction(employeeID, memberID, 9.42);
+            transaction2.Execute();
+
+            DateTime payDate = new DateTime(2019, 1, 4);
+            ServiceChargeTransaction transaction3 = new ServiceChargeTransaction(memberID, payDate, 19.42);
+            transaction3.Execute();
+            ServiceChargeTransaction transaction4 = new ServiceChargeTransaction(memberID, payDate.AddDays(-7), 10.42);
+            transaction4.Execute();
+            ServiceChargeTransaction transaction5 = new ServiceChargeTransaction(memberID, payDate.AddDays(7), 29.42);
+            transaction5.Execute();
+
+            TimeCardTransaction transaction6 = new TimeCardTransaction(employeeID, payDate, 8.0);
+            transaction6.Execute();
+
+            PaydayTransaction transaction7 = new PaydayTransaction(payDate);
+            transaction7.Execute();
+
+            Double grossPay = 15.25 * 8.0;
+            Double deductions = 9.42 * 1.0 + 19.42;
+
+            ValidatePaycheck(transaction7, employeeID, payDate, grossPay, deductions, grossPay - deductions);
+
         }
 
         #region Utilities

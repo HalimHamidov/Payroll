@@ -61,7 +61,20 @@ namespace Payroll.Model.Affilations
 
             Double totalDues = _dues * fridays;
 
+            foreach (ServiceCharge serviceCharge in _serviceCharges)
+            {
+                if (DateUtility.IsInPeriod(serviceCharge.Date, paycheck.StartDate, paycheck.EndDate))
+                {
+                    totalDues += CalculatePayForServiceCharge(serviceCharge);
+                }
+            }
+
             return totalDues;
+        }
+
+        private Double CalculatePayForServiceCharge(ServiceCharge serviceCharge)
+        {
+            return serviceCharge.Amount;
         }
     }
 }
