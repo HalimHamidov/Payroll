@@ -1,4 +1,7 @@
 ﻿using System;
+using Payroll.Console.TransactionSources;
+using Payroll.Model.Transactions;
+using Payroll.Model.TransactionSources;
 
 namespace Payroll.Console
 {
@@ -6,7 +9,21 @@ namespace Payroll.Console
     {
         static void Main(String[] args)
         {
-            //System.Console.WriteLine("Hello World!");
+            ITransactionSource transactionSource = new TextParserTransactionSource();
+
+            while (true)
+            {
+                ITransaction transaction = transactionSource.GetTransaction();
+
+                if (transaction != null)
+                {
+                    transaction.Execute();
+                }
+                else
+                {
+                    break;
+                }
+            }
         }
     }
 }
