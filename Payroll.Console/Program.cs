@@ -17,7 +17,14 @@ namespace Payroll.Console
 
                 if (transaction != null)
                 {
-                    transaction.Execute();
+                    try
+                    {
+                        transaction.Execute();
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        System.Console.WriteLine(ex.Message);
+                    }
                 }
                 else
                 {
