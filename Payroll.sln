@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payroll.Model", "Payroll.Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payroll.Console", "Payroll.Console\Payroll.Console.csproj", "{93C3F6C4-FC1F-48CD-AC75-E51B3BDF1304}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payroll.XUnitTest", "Payroll.XUnitTest\Payroll.XUnitTest.csproj", "{937B6F83-4E36-43DF-BB28-5A8A933E5B2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payroll.XUnitTest", "Payroll.XUnitTest\Payroll.XUnitTest.csproj", "{937B6F83-4E36-43DF-BB28-5A8A933E5B2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
