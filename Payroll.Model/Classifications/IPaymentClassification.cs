@@ -1,7 +1,7 @@
 using System;
-using Payroll.Model.Entities;
+using Payroll.Core.Model.Entities;
 
-namespace Payroll.Model.Classifications
+namespace Payroll.Core.Model.Classifications
 {
     public interface IPaymentClassification
     {

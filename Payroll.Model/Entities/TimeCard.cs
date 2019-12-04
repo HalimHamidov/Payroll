@@ -1,6 +1,6 @@
 using System;
 
-namespace Payroll.Model.Entities
+namespace Payroll.Core.Model.Entities
 {
     public class TimeCard
     {

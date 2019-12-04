@@ -1,10 +1,10 @@
 using System;
-using Payroll.Model.Affilations;
-using Payroll.Model.Classifications;
-using Payroll.Model.Methods;
-using Payroll.Model.Schedules;
+using Payroll.Core.Model.Affilations;
+using Payroll.Core.Model.Classifications;
+using Payroll.Core.Model.Methods;
+using Payroll.Core.Model.Schedules;
 
-namespace Payroll.Model.Entities
+namespace Payroll.Core.Model.Entities
 {
     public class Employee
     {

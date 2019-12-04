@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Payroll.Model.Transactions;
+using Payroll.Core.Model.Transactions;
 
-namespace Payroll.Model.TransactionSources
+namespace Payroll.Core.Model.TransactionSources
 {
     public interface ITransactionSource
     {

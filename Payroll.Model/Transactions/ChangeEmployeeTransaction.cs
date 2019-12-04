@@ -1,8 +1,8 @@
 using System;
-using Payroll.Model.DataContexts;
-using Payroll.Model.Entities;
+using Payroll.Core.Model.DataContexts;
+using Payroll.Core.Model.Entities;
 
-namespace Payroll.Model.Transactions
+namespace Payroll.Core.Model.Transactions
 {
     public abstract class ChangeEmployeeTransaction : ITransaction
     {

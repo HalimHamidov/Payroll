@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Payroll.Console.TransactionParsers;
-using Payroll.Model.Transactions;
-using Payroll.Model.TransactionSources;
+using Payroll.Console.Model.TransactionParsers;
+using Payroll.Core.Model.Transactions;
+using Payroll.Core.Model.TransactionSources;
 
-namespace Payroll.Console.TransactionSources
+namespace Payroll.Console.Model.TransactionSources
 {
     public class TextParserTransactionSource : ITransactionSource
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Payroll.Model.Methods;
+using Payroll.Core.Model.Methods;
 
-namespace Payroll.Model.Transactions
+namespace Payroll.Core.Model.Transactions
 {
     public class ChangeDirectTransaction : ChangeMethodTransaction
     {

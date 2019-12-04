@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Payroll.Model.Entities;
-using Payroll.Model.Utilities;
+using Payroll.Core.Model.Entities;
+using Payroll.Core.Model.Utilities;
 
-namespace Payroll.Model.Affilations
+namespace Payroll.Core.Model.Affilations
 {
     public class UnionAffilation : IAffilation
     {

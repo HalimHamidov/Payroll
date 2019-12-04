@@ -1,6 +1,6 @@
 using System;
 
-namespace Payroll.Model.Schedules
+namespace Payroll.Core.Model.Schedules
 {
     public class MonthlyPaymentSchedule : IPaymentSchedule
     {

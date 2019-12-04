@@ -1,8 +1,8 @@
 using System;
-using Payroll.Model.Classifications;
-using Payroll.Model.Schedules;
+using Payroll.Core.Model.Classifications;
+using Payroll.Core.Model.Schedules;
 
-namespace Payroll.Model.Transactions
+namespace Payroll.Core.Model.Transactions
 {
     public class AddCommissionedTransaction : AddEmployeeTransaction
     {

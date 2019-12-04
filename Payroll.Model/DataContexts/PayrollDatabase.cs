@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Payroll.Model.Entities;
+using Payroll.Core.Model.Entities;
 
-namespace Payroll.Model.DataContexts
+namespace Payroll.Core.Model.DataContexts
 {
     public class PayrollDatabase
     {

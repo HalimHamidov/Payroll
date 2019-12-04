@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Payroll.Model.Entities
+namespace Payroll.Core.Model.Entities
 {
     public class Paycheck
     {

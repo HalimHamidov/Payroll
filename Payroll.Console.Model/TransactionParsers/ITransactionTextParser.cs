@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Payroll.Model.Transactions;
+using Payroll.Core.Model.Transactions;
 
-namespace Payroll.Console.TransactionParsers
+namespace Payroll.Console.Model.TransactionParsers
 {
     public interface ITransactionTextParser
     {

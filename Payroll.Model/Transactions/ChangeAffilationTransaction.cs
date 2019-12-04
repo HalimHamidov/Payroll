@@ -1,8 +1,8 @@
 ﻿using System;
-using Payroll.Model.Affilations;
-using Payroll.Model.Entities;
+using Payroll.Core.Model.Affilations;
+using Payroll.Core.Model.Entities;
 
-namespace Payroll.Model.Transactions
+namespace Payroll.Core.Model.Transactions
 {
     public abstract class ChangeAffilationTransaction : ChangeEmployeeTransaction
     {

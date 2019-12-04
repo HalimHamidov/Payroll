@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Payroll.Console\Payroll.Console.csproj" />
-    <ProjectReference Include="..\Payroll.Model\Payroll.Model.csproj" />
+    <ProjectReference Include="..\Payroll.Model\Payroll.Core.Model.csproj" />
   </ItemGroup>
 
 </Project>

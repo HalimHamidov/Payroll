@@ -1,7 +1,7 @@
 using System;
-using Payroll.Model.DataContexts;
+using Payroll.Core.Model.DataContexts;
 
-namespace Payroll.Model.Transactions
+namespace Payroll.Core.Model.Transactions
 {
     public class DeleteEmployeeTransaction : ITransaction
     {

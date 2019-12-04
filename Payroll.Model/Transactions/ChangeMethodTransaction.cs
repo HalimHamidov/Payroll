@@ -1,8 +1,8 @@
 ﻿using System;
-using Payroll.Model.Entities;
-using Payroll.Model.Methods;
+using Payroll.Core.Model.Entities;
+using Payroll.Core.Model.Methods;
 
-namespace Payroll.Model.Transactions
+namespace Payroll.Core.Model.Transactions
 {
     public abstract class ChangeMethodTransaction : ChangeEmployeeTransaction
     {

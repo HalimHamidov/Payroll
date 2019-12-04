@@ -1,4 +1,4 @@
-namespace Payroll.Model.Transactions
+namespace Payroll.Core.Model.Transactions
 {
     public interface ITransaction
     {

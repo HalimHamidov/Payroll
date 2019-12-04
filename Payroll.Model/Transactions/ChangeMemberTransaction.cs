@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Payroll.Model.Affilations;
-using Payroll.Model.DataContexts;
-using Payroll.Model.Entities;
+using Payroll.Core.Model.Affilations;
+using Payroll.Core.Model.DataContexts;
+using Payroll.Core.Model.Entities;
 
-namespace Payroll.Model.Transactions
+namespace Payroll.Core.Model.Transactions
 {
     public class ChangeMemberTransaction : ChangeAffilationTransaction
     {

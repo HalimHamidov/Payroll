@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Payroll.Model.Utilities
+namespace Payroll.Core.Model.Utilities
 {
     public class DateUtility
     {

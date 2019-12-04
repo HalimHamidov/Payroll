@@ -1,9 +1,9 @@
 using System;
-using Payroll.Model.Entities;
-using Payroll.Model.DataContexts;
-using Payroll.Model.Affilations;
+using Payroll.Core.Model.Entities;
+using Payroll.Core.Model.DataContexts;
+using Payroll.Core.Model.Affilations;
 
-namespace Payroll.Model.Transactions
+namespace Payroll.Core.Model.Transactions
 {
     public class ServiceChargeTransaction : ITransaction
     {

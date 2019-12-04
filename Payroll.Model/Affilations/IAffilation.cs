@@ -1,7 +1,7 @@
 using System;
-using Payroll.Model.Entities;
+using Payroll.Core.Model.Entities;
 
-namespace Payroll.Model.Affilations
+namespace Payroll.Core.Model.Affilations
 {
     public interface IAffilation
     {

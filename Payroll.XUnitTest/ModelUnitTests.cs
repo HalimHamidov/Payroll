@@ -1,11 +1,11 @@
 using System;
-using Payroll.Model.Affilations;
-using Payroll.Model.Classifications;
-using Payroll.Model.DataContexts;
-using Payroll.Model.Entities;
-using Payroll.Model.Methods;
-using Payroll.Model.Schedules;
-using Payroll.Model.Transactions;
+using Payroll.Core.Model.Affilations;
+using Payroll.Core.Model.Classifications;
+using Payroll.Core.Model.DataContexts;
+using Payroll.Core.Model.Entities;
+using Payroll.Core.Model.Methods;
+using Payroll.Core.Model.Schedules;
+using Payroll.Core.Model.Transactions;
 using Xunit;
 
 namespace Payroll.XUnitTest
@@ -592,7 +592,6 @@ namespace Payroll.XUnitTest
             Double deductions = 9.42 * 1.0 + 19.42;
 
             ValidatePaycheck(transaction7, employeeID, payDate, grossPay, deductions, grossPay - deductions);
-
         }
 
         #region Utilities

@@ -1,6 +1,6 @@
 ﻿using System;
-using Payroll.Console.TransactionSources;
-using Payroll.Model.Transactions;
+using Payroll.Console.Model.TransactionSources;
+using Payroll.Core.Model.Transactions;
 using Xunit;
 
 namespace Payroll.XUnitTest

@@ -1,7 +1,7 @@
 using System;
-using Payroll.Model.Entities;
+using Payroll.Core.Model.Entities;
 
-namespace Payroll.Model.Methods
+namespace Payroll.Core.Model.Methods
 {
     public class MailMethod : IPaymentMethod
     {

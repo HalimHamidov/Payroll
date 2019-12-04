@@ -1,12 +1,12 @@
 using System;
-using Payroll.Model.Classifications;
-using Payroll.Model.Entities;
-using Payroll.Model.Methods;
-using Payroll.Model.Schedules;
-using Payroll.Model.DataContexts;
-using Payroll.Model.Affilations;
+using Payroll.Core.Model.Classifications;
+using Payroll.Core.Model.Entities;
+using Payroll.Core.Model.Methods;
+using Payroll.Core.Model.Schedules;
+using Payroll.Core.Model.DataContexts;
+using Payroll.Core.Model.Affilations;
 
-namespace Payroll.Model.Transactions
+namespace Payroll.Core.Model.Transactions
 {
     public abstract class AddEmployeeTransaction : ITransaction
     {

@@ -1,7 +1,7 @@
 ﻿using System;
-using Payroll.Console.TransactionSources;
-using Payroll.Model.Transactions;
-using Payroll.Model.TransactionSources;
+using Payroll.Console.Model.TransactionSources;
+using Payroll.Core.Model.Transactions;
+using Payroll.Core.Model.TransactionSources;
 
 namespace Payroll.Console
 {
