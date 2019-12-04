@@ -6,24 +6,25 @@ using Payroll.Core.Model.Entities;
 
 namespace Payroll.Core.Model.Transactions
 {
-    public class PaydayTransaction : ITransaction
+    public class PaydayTransaction : BaseTransaction
     {
         private readonly DateTime _date;
 
         private readonly Dictionary<Int32, Paycheck> _paychecks;
 
-        public PaydayTransaction(DateTime date)
+        public PaydayTransaction(DateTime date, IPayrollDatabase dbContext)
+            : base (dbContext)
         {
             _date = date;
             _paychecks = new Dictionary<Int32, Paycheck>();
         }
 
-        public void Execute()
+        public override void Execute()
         {
-            IEnumerable<Int32> employeeIDs = PayrollDatabase.GetEmployeeIDs();
+            IEnumerable<Int32> employeeIDs = _dbContext.GetEmployeeIDs();
             foreach(Int32 employeeID in employeeIDs)
             {
-                Employee employee = PayrollDatabase.GetEmployee(employeeID);
+                Employee employee = _dbContext.GetEmployee(employeeID);
                 if (employee.IsPayDate(_date))
                 {
                     DateTime startDate = employee.GetPayPeriodStartDate(_date);

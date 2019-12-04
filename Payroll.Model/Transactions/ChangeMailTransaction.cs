@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Payroll.Core.Model.DataContexts;
 using Payroll.Core.Model.Methods;
 
 namespace Payroll.Core.Model.Transactions
@@ -9,8 +10,8 @@ namespace Payroll.Core.Model.Transactions
     {
         private readonly String _address;
 
-        public ChangeMailTransaction(Int32 employeeID, String address)
-            : base(employeeID)
+        public ChangeMailTransaction(Int32 employeeID, String address, IPayrollDatabase dbContext)
+            : base(employeeID, dbContext)
         {
             _address = address;
         }

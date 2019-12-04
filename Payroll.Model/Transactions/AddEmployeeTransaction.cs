@@ -8,7 +8,7 @@ using Payroll.Core.Model.Affilations;
 
 namespace Payroll.Core.Model.Transactions
 {
-    public abstract class AddEmployeeTransaction : ITransaction
+    public abstract class AddEmployeeTransaction : BaseTransaction
     {
         private readonly Int32 _employeeID;
 
@@ -16,7 +16,8 @@ namespace Payroll.Core.Model.Transactions
 
         private readonly String _address;
 
-        public AddEmployeeTransaction(Int32 employeeID, String name, String address)
+        public AddEmployeeTransaction(Int32 employeeID, String name, String address, IPayrollDatabase dbContext)
+            : base (dbContext)
         {
             _employeeID = employeeID;
             _name = name;
@@ -33,7 +34,7 @@ namespace Payroll.Core.Model.Transactions
             get;
         }
 
-        public void Execute()
+        public override void Execute()
         {
             IPaymentClassification paymentClassification = PaymentClassification;
             IPaymentSchedule paymentSchedule = PaymentSchedule;
@@ -48,7 +49,7 @@ namespace Payroll.Core.Model.Transactions
                 Affilation = affilation
             };
 
-            PayrollDatabase.AddEmployee(_employeeID, employee);
+            _dbContext.AddEmployee(_employeeID, employee);
         }
     }
 }

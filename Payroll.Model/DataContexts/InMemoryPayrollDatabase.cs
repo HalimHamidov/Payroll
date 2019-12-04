@@ -5,17 +5,23 @@ using Payroll.Core.Model.Entities;
 
 namespace Payroll.Core.Model.DataContexts
 {
-    public class PayrollDatabase
+    public class InMemoryPayrollDatabase : IPayrollDatabase
     {
-        private static readonly Dictionary<Int32, Employee> _employees = new Dictionary<Int32, Employee>();
-        private static readonly Dictionary<Int32, Employee> _unionMembers = new Dictionary<Int32, Employee>();
+        private readonly Dictionary<Int32, Employee> _employees;
+        private readonly Dictionary<Int32, Employee> _unionMembers;
 
-        public static void AddEmployee(Int32 employeeID, Employee employee)
+        public InMemoryPayrollDatabase()
+        {
+            _employees = new Dictionary<Int32, Employee>();
+            _unionMembers = new Dictionary<Int32, Employee>();
+        }
+
+        public void AddEmployee(Int32 employeeID, Employee employee)
         {
             _employees[employeeID] = employee;
         }
 
-        public static Employee GetEmployee(Int32 employeeID)
+        public Employee GetEmployee(Int32 employeeID)
         {
             if (_employees.ContainsKey(employeeID))
             {
@@ -25,7 +31,7 @@ namespace Payroll.Core.Model.DataContexts
             return null;
         }
 
-        public static void DeleteEmployee(Int32 employeeID)
+        public void DeleteEmployee(Int32 employeeID)
         {
             if (_employees.ContainsKey(employeeID))
             {
@@ -33,17 +39,17 @@ namespace Payroll.Core.Model.DataContexts
             }
         }
 
-        public static IEnumerable<Int32> GetEmployeeIDs()
+        public IEnumerable<Int32> GetEmployeeIDs()
         {
             return _employees.Keys;
         }
     
-        public static void AddUnionMember(Int32 unionMemberID, Employee employee)
+        public void AddUnionMember(Int32 unionMemberID, Employee employee)
         {
             _unionMembers[unionMemberID] = employee;
         }
 
-        public static Employee GetUnionMember(Int32 unionMemberID)
+        public Employee GetUnionMember(Int32 unionMemberID)
         {
             if (_unionMembers.ContainsKey(unionMemberID))
             {
@@ -53,7 +59,7 @@ namespace Payroll.Core.Model.DataContexts
             return null;
         }
 
-        public static void DeleteUnionMember(Int32 unionMemberID)
+        public void DeleteUnionMember(Int32 unionMemberID)
         {
             if (_unionMembers.ContainsKey(unionMemberID))
             {

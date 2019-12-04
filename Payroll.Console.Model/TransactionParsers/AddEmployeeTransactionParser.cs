@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Payroll.Core.Model.DataContexts;
 using Payroll.Core.Model.Transactions;
 
 namespace Payroll.Console.Model.TransactionParsers
 {
-    public class AddEmployeeTransactionParser : ITransactionTextParser
+    public class AddEmployeeTransactionParser : BaseTransactionTextParser
     {
-        public ITransaction Parse(String text)
+        public AddEmployeeTransactionParser(IPayrollDatabase dbContext)
+            : base(dbContext)
+        {
+            //
+        }
+
+        public override ITransaction Parse(String text)
         {
             String[] words = text
                 .Split(' ');
@@ -32,20 +39,20 @@ namespace Payroll.Console.Model.TransactionParsers
                 case "H":
                     {
                         Double hourlyRate = Double.Parse(words[5]);
-                        transaction = new AddHourlyTransaction(employeeID, name, address, hourlyRate);
+                        transaction = new AddHourlyTransaction(employeeID, name, address, hourlyRate, _dbContext);
                         break;
                     }
                 case "S":
                     {
                         Double salary = Double.Parse(words[5]);
-                        transaction = new AddSalariedTransaction(employeeID, name, address, salary);
+                        transaction = new AddSalariedTransaction(employeeID, name, address, salary, _dbContext);
                         break;
                     }
                 case "C":
                     {
                         Double salary = Double.Parse(words[5]);
                         Double commissionRate = Double.Parse(words[6]);
-                        transaction = new AddCommissionedTransaction(employeeID, name, address, salary, commissionRate);
+                        transaction = new AddCommissionedTransaction(employeeID, name, address, salary, commissionRate, _dbContext);
                         break;
                     }
             }

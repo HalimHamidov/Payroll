@@ -2,14 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 using Payroll.Console.Model.TransactionParsers;
+using Payroll.Core.Model.DataContexts;
 using Payroll.Core.Model.Transactions;
 using Payroll.Core.Model.TransactionSources;
 
 namespace Payroll.Console.Model.TransactionSources
 {
-    public class TextParserTransactionSource : ITransactionSource
+    public class TextParserTransactionSource : BaseTransactionSource
     {
-        public ITransaction GetTransaction()
+        public TextParserTransactionSource(IPayrollDatabase dbContext)
+            : base(dbContext)
+        {
+            //
+        }
+
+        public override ITransaction GetTransaction()
         {
             System.Console.Write("> ");
             String transactionText = System.Console.ReadLine();
@@ -25,37 +32,37 @@ namespace Payroll.Console.Model.TransactionSources
             {
                 case "AddEmp":
                     {
-                        transactionParser = new AddEmployeeTransactionParser();
+                        transactionParser = new AddEmployeeTransactionParser(_dbContext);
                         break;
                     }
                 case "ChgEmp":
                     {
-                        transactionParser = new ChangeEmployeeTransactionParser();
+                        transactionParser = new ChangeEmployeeTransactionParser(_dbContext);
                         break;
                     }
                 case "DelEmp":
                     {
-                        transactionParser = new DeleteEmployeeTransactionParser();
+                        transactionParser = new DeleteEmployeeTransactionParser(_dbContext);
                         break;
                     }
                 case "Payday":
                     {
-                        transactionParser = new PaydayTransactionParser();
+                        transactionParser = new PaydayTransactionParser(_dbContext);
                         break;
                     }
                 case "SalesReceipt":
                     {
-                        transactionParser = new SalesReceiptTransactionParser();
+                        transactionParser = new SalesReceiptTransactionParser(_dbContext);
                         break;
                     }
                 case "ServiceCharge":
                     {
-                        transactionParser = new ServiceChargeTransactionParser();
+                        transactionParser = new ServiceChargeTransactionParser(_dbContext);
                         break;
                     }
                 case "TimeCard":
                     {
-                        transactionParser = new TimeCardTransactionParser();
+                        transactionParser = new TimeCardTransactionParser(_dbContext);
                         break;
                     }
             }

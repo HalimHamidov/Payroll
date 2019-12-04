@@ -1,4 +1,5 @@
 ﻿using System;
+using Payroll.Core.Model.DataContexts;
 using Payroll.Core.Model.Entities;
 
 namespace Payroll.Core.Model.Transactions
@@ -7,8 +8,8 @@ namespace Payroll.Core.Model.Transactions
     {
         private readonly String _address;
 
-        public ChangeAddressTransaction(Int32 employeeID, String address)
-            : base(employeeID)
+        public ChangeAddressTransaction(Int32 employeeID, String address, IPayrollDatabase dbContext)
+            : base(employeeID, dbContext)
         {
             _address = address;
         }

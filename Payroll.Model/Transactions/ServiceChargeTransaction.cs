@@ -5,7 +5,7 @@ using Payroll.Core.Model.Affilations;
 
 namespace Payroll.Core.Model.Transactions
 {
-    public class ServiceChargeTransaction : ITransaction
+    public class ServiceChargeTransaction : BaseTransaction
     {
         private readonly Int32 _unionMemberID;
 
@@ -13,16 +13,17 @@ namespace Payroll.Core.Model.Transactions
 
         private readonly Double _amount;
 
-        public ServiceChargeTransaction(Int32 unionMemberID, DateTime date, Double amount)
+        public ServiceChargeTransaction(Int32 unionMemberID, DateTime date, Double amount, IPayrollDatabase dbContext)
+            : base (dbContext)
         {
             _unionMemberID = unionMemberID;
             _date = date;
             _amount = amount;
         }
 
-        public void Execute()
+        public override void Execute()
         {
-            Employee employee = PayrollDatabase.GetUnionMember(_unionMemberID);
+            Employee employee = _dbContext.GetUnionMember(_unionMemberID);
             if (employee != null)
             {
                 if (employee.Affilation is UnionAffilation unionAffilation)

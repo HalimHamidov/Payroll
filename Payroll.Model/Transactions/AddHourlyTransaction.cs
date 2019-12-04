@@ -1,5 +1,6 @@
 using System;
 using Payroll.Core.Model.Classifications;
+using Payroll.Core.Model.DataContexts;
 using Payroll.Core.Model.Schedules;
 
 namespace Payroll.Core.Model.Transactions
@@ -8,8 +9,8 @@ namespace Payroll.Core.Model.Transactions
     {
         private readonly Double _hourlyRate;
 
-        public AddHourlyTransaction(Int32 employeeID, String name, String address, Double hourlyRate)
-            : base (employeeID, name, address)
+        public AddHourlyTransaction(Int32 employeeID, String name, String address, Double hourlyRate, IPayrollDatabase dbContext)
+            : base (employeeID, name, address, dbContext)
         {
             _hourlyRate = hourlyRate;
         }

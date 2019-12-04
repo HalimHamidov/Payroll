@@ -5,7 +5,7 @@ using Payroll.Core.Model.Entities;
 
 namespace Payroll.Core.Model.Transactions
 {
-    public class SalesReceiptTransaction : ITransaction
+    public class SalesReceiptTransaction : BaseTransaction
     {
         private readonly Int32 _employeeID;
 
@@ -13,16 +13,17 @@ namespace Payroll.Core.Model.Transactions
 
         private readonly Double _amount;
 
-        public SalesReceiptTransaction(Int32 employeeID, DateTime date, Double amount)
+        public SalesReceiptTransaction(Int32 employeeID, DateTime date, Double amount, IPayrollDatabase dbContext)
+            : base (dbContext)
         {
             _employeeID = employeeID;
             _date = date;
             _amount = amount;
         }
 
-        public void Execute()
+        public override void Execute()
         {
-            Employee employee = PayrollDatabase.GetEmployee(_employeeID);
+            Employee employee = _dbContext.GetEmployee(_employeeID);
             if (employee != null)
             {
                 if (employee.PaymentClassification is CommissionedPaymentClassification commisionedClassification)

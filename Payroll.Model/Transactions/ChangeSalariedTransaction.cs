@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Payroll.Core.Model.Classifications;
+using Payroll.Core.Model.DataContexts;
 using Payroll.Core.Model.Entities;
 using Payroll.Core.Model.Schedules;
 
@@ -11,8 +12,8 @@ namespace Payroll.Core.Model.Transactions
     {
         private readonly Double _salary;
 
-        public ChangeSalariedTransaction(Int32 employeeID, Double salary)
-            : base(employeeID)
+        public ChangeSalariedTransaction(Int32 employeeID, Double salary, IPayrollDatabase dbContext)
+            : base(employeeID, dbContext)
         {
             _salary = salary;
         }

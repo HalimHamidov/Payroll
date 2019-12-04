@@ -5,7 +5,7 @@ using Payroll.Core.Model.Entities;
 
 namespace Payroll.Core.Model.Transactions
 {
-    public class TimeCardTransaction : ITransaction
+    public class TimeCardTransaction : BaseTransaction
     {
         private readonly Int32 _employeeID;
 
@@ -13,16 +13,17 @@ namespace Payroll.Core.Model.Transactions
 
         private readonly Double _hours;
 
-        public TimeCardTransaction(Int32 employeeID, DateTime date, Double hours)
+        public TimeCardTransaction(Int32 employeeID, DateTime date, Double hours, IPayrollDatabase dbContext)
+            : base(dbContext)
         {
             _employeeID = employeeID;
             _date = date;
             _hours = hours;
         }
 
-        public void Execute()
+        public override void Execute()
         {
-            Employee employee = PayrollDatabase.GetEmployee(_employeeID);
+            Employee employee = _dbContext.GetEmployee(_employeeID);
             if (employee != null)
             {
                 if (employee.PaymentClassification is HourlyPaymentClassification hourlyClassification)

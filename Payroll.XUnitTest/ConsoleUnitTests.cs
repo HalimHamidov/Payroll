@@ -1,5 +1,6 @@
 ﻿using System;
 using Payroll.Console.Model.TransactionSources;
+using Payroll.Core.Model.DataContexts;
 using Payroll.Core.Model.Transactions;
 using Xunit;
 
@@ -7,11 +8,18 @@ namespace Payroll.XUnitTest
 {
     public class ConsoleUnitTests
     {
+        private readonly IPayrollDatabase _dbContext;
+
+        public ConsoleUnitTests()
+        {
+            _dbContext = new InMemoryPayrollDatabase();
+        }
+
         [Fact]
         public void TestAddSalariedEmployee()
         {
             String transactionText = "AddEmp 1 Bill Home S 915,25";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is AddSalariedTransaction);
@@ -21,7 +29,7 @@ namespace Payroll.XUnitTest
         public void TestAddHourlyEmployee()
         {
             String transactionText = "AddEmp 2 Bob Home H 91,15";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is AddHourlyTransaction);
@@ -31,7 +39,7 @@ namespace Payroll.XUnitTest
         public void TestAddCommissionedEmployee()
         {
             String transactionText = "AddEmp 3 Michael Home C 800,5 2,5";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is AddCommissionedTransaction);
@@ -41,7 +49,7 @@ namespace Payroll.XUnitTest
         public void TestDeleteEmployee()
         {
             String transactionText = "DelEmp 4";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is DeleteEmployeeTransaction);
@@ -51,7 +59,7 @@ namespace Payroll.XUnitTest
         public void TestSalesReceipt()
         {
             String transactionText = "SalesReceipt 5 2019.12.04 915,25";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is SalesReceiptTransaction);
@@ -61,7 +69,7 @@ namespace Payroll.XUnitTest
         public void TestServiceCharge()
         {
             String transactionText = "ServiceCharge 6 2019.12.04 15,25";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is ServiceChargeTransaction);
@@ -71,7 +79,7 @@ namespace Payroll.XUnitTest
         public void TestTimeCard()
         {
             String transactionText = "TimeCard 7 2019.12.04 8,0";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is TimeCardTransaction);
@@ -81,7 +89,7 @@ namespace Payroll.XUnitTest
         public void TestChangeEmployeeName()
         {
             String transactionText = "ChgEmp 8 Name Bob";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is ChangeNameTransaction);
@@ -91,7 +99,7 @@ namespace Payroll.XUnitTest
         public void TestChangeEmployeeAddress()
         {
             String transactionText = "ChgEmp 9 Address Job";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is ChangeAddressTransaction);
@@ -101,7 +109,7 @@ namespace Payroll.XUnitTest
         public void TestChangeEmployeeHourly()
         {
             String transactionText = "ChgEmp 10 Hourly 91,50";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is ChangeHourlyTransaction);
@@ -111,7 +119,7 @@ namespace Payroll.XUnitTest
         public void TestChangeEmployeeSalaried()
         {
             String transactionText = "ChgEmp 11 Salaried 915,00";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is ChangeSalariedTransaction);
@@ -121,7 +129,7 @@ namespace Payroll.XUnitTest
         public void TestChangeEmployeeCommissioned()
         {
             String transactionText = "ChgEmp 12 Commissioned 850,5 1,5";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is ChangeCommissionedTransaction);
@@ -131,7 +139,7 @@ namespace Payroll.XUnitTest
         public void TestChangeEmployeeHold()
         {
             String transactionText = "ChgEmp 13 Hold";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is ChangeHoldTransaction);
@@ -141,7 +149,7 @@ namespace Payroll.XUnitTest
         public void TestChangeEmployeeDirect()
         {
             String transactionText = "ChgEmp 14 Direct Bank2 123-456-789";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is ChangeDirectTransaction);
@@ -151,7 +159,7 @@ namespace Payroll.XUnitTest
         public void TestChangeEmployeeMail()
         {
             String transactionText = "ChgEmp 15 Mail address@email.com";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is ChangeMailTransaction);
@@ -161,7 +169,7 @@ namespace Payroll.XUnitTest
         public void TestChangeEmployeeMember()
         {
             String transactionText = "ChgEmp 15 Member 1 Dues 5,5";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is ChangeMemberTransaction);
@@ -171,7 +179,7 @@ namespace Payroll.XUnitTest
         public void TestChangeEmployeeUnaffilated()
         {
             String transactionText = "ChgEmp 16 NoMember";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is ChangeUnaffilatedTransaction);
@@ -181,7 +189,7 @@ namespace Payroll.XUnitTest
         public void TestPayday()
         {
             String transactionText = "Payday 2019.12.04";
-            TextParserTransactionSource transactionSource = new TextParserTransactionSource();
+            TextParserTransactionSource transactionSource = new TextParserTransactionSource(_dbContext);
 
             ITransaction transaction = transactionSource.GetTransaction(transactionText);
             Assert.True(transaction is PaydayTransaction);

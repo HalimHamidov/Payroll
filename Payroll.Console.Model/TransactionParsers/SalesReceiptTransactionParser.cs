@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Payroll.Core.Model.DataContexts;
 using Payroll.Core.Model.Transactions;
 
 namespace Payroll.Console.Model.TransactionParsers
 {
-    public class SalesReceiptTransactionParser : ITransactionTextParser
+    public class SalesReceiptTransactionParser : BaseTransactionTextParser
     {
-        public ITransaction Parse(String text)
+        public SalesReceiptTransactionParser(IPayrollDatabase dbContext)
+            : base(dbContext)
+        {
+            //
+        }
+
+        public override ITransaction Parse(String text)
         {
             String[] words = text
                 .Split(' ');
@@ -23,7 +30,7 @@ namespace Payroll.Console.Model.TransactionParsers
 
             Double amount = Double.Parse(words[3]);
 
-            ITransaction transaction = new SalesReceiptTransaction(employeeID, date, amount);
+            ITransaction transaction = new SalesReceiptTransaction(employeeID, date, amount, _dbContext);
 
             return transaction;
         }

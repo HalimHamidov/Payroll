@@ -4,18 +4,19 @@ using Payroll.Core.Model.Entities;
 
 namespace Payroll.Core.Model.Transactions
 {
-    public abstract class ChangeEmployeeTransaction : ITransaction
+    public abstract class ChangeEmployeeTransaction : BaseTransaction
     {
         private readonly Int32 _employeeID;
 
-        public ChangeEmployeeTransaction(Int32 employeeID)
+        public ChangeEmployeeTransaction(Int32 employeeID, IPayrollDatabase dbContext)
+            : base(dbContext)
         {
             _employeeID = employeeID;
         }
 
-        public void Execute()
+        public override void Execute()
         {
-            Employee employee = PayrollDatabase.GetEmployee(_employeeID);
+            Employee employee = _dbContext.GetEmployee(_employeeID);
             if (employee != null)
             {
                 Change(employee);

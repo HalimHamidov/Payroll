@@ -13,8 +13,8 @@ namespace Payroll.Core.Model.Transactions
 
         private readonly Double _dues;
 
-        public ChangeMemberTransaction(Int32 employeeID, Int32 unionMemberID, Double dues)
-            : base(employeeID)
+        public ChangeMemberTransaction(Int32 employeeID, Int32 unionMemberID, Double dues, IPayrollDatabase dbContext)
+            : base(employeeID, dbContext)
         {
             _unionMemberID = unionMemberID;
             _dues = dues;
@@ -30,7 +30,7 @@ namespace Payroll.Core.Model.Transactions
 
         protected override void RecordMembership(Employee employee)
         {
-            PayrollDatabase.AddUnionMember(_unionMemberID, employee);
+            _dbContext.AddUnionMember(_unionMemberID, employee);
         }
     }
 }

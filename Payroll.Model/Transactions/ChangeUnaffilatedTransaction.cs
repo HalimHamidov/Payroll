@@ -9,8 +9,8 @@ namespace Payroll.Core.Model.Transactions
 {
     public class ChangeUnaffilatedTransaction : ChangeAffilationTransaction
     {
-        public ChangeUnaffilatedTransaction(Int32 employeeID)
-            : base(employeeID)
+        public ChangeUnaffilatedTransaction(Int32 employeeID, IPayrollDatabase dbContext)
+            : base(employeeID, dbContext)
         {
             //
         }
@@ -30,7 +30,7 @@ namespace Payroll.Core.Model.Transactions
             if (affilation is UnionAffilation unionAffilation)
             {
                 Int32 unionMemberID = unionAffilation.UnionMemberID;
-                PayrollDatabase.DeleteUnionMember(unionMemberID);
+                _dbContext.DeleteUnionMember(unionMemberID);
             }
         }
     }

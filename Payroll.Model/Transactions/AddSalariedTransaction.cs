@@ -1,5 +1,6 @@
 using System;
 using Payroll.Core.Model.Classifications;
+using Payroll.Core.Model.DataContexts;
 using Payroll.Core.Model.Schedules;
 
 namespace Payroll.Core.Model.Transactions
@@ -8,8 +9,8 @@ namespace Payroll.Core.Model.Transactions
     {
         private readonly Double _salary;
 
-        public AddSalariedTransaction(Int32 employeeID, String name, String address, Double salary)
-            : base (employeeID, name, address)
+        public AddSalariedTransaction(Int32 employeeID, String name, String address, Double salary, IPayrollDatabase dbContext)
+            : base (employeeID, name, address, dbContext)
         {
             _salary = salary;
         }

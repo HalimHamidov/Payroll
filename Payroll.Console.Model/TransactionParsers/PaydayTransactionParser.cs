@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Payroll.Core.Model.DataContexts;
 using Payroll.Core.Model.Transactions;
 
 namespace Payroll.Console.Model.TransactionParsers
 {
-    public class PaydayTransactionParser : ITransactionTextParser
+    public class PaydayTransactionParser : BaseTransactionTextParser
     {
-        public ITransaction Parse(String text)
+        public PaydayTransactionParser(IPayrollDatabase dbContext)
+            : base(dbContext)
+        {
+
+        }
+
+        public override ITransaction Parse(String text)
         {
             String[] words = text
                 .Split(' ');
@@ -19,7 +26,7 @@ namespace Payroll.Console.Model.TransactionParsers
 
             DateTime date = DateTime.Parse(words[1]);
 
-            ITransaction transaction = new PaydayTransaction(date);
+            ITransaction transaction = new PaydayTransaction(date, _dbContext);
 
             return transaction;
         }

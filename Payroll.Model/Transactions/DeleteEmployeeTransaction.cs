@@ -3,18 +3,19 @@ using Payroll.Core.Model.DataContexts;
 
 namespace Payroll.Core.Model.Transactions
 {
-    public class DeleteEmployeeTransaction : ITransaction
+    public class DeleteEmployeeTransaction : BaseTransaction
     {
         private readonly Int32 _employeeID;
 
-        public DeleteEmployeeTransaction(Int32 employeeID)
+        public DeleteEmployeeTransaction(Int32 employeeID, IPayrollDatabase dbContext)
+            : base (dbContext)
         {
             _employeeID = employeeID;
         }
 
-        public void Execute()
+        public override void Execute()
         {
-            PayrollDatabase.DeleteEmployee(_employeeID);
+            _dbContext.DeleteEmployee(_employeeID);
         }
     }
 }
