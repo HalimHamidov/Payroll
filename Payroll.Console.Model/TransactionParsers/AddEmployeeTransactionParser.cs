@@ -12,7 +12,7 @@ namespace Payroll.Console.Model.TransactionParsers
             String[] words = text
                 .Split(' ');
 
-            if (words.Length < 6 || words[0] != "AddEmp")
+            if (words.Length < 6)
             {
                 return null;
             }
@@ -21,9 +21,9 @@ namespace Payroll.Console.Model.TransactionParsers
 
             Int32 employeeID = Int32.Parse(words[1]);
             
-            String employeeName = words[2];
+            String name = words[2];
             
-            String employeeAddress = words[3];
+            String address = words[3];
 
             String classification = words[4];
 
@@ -32,20 +32,20 @@ namespace Payroll.Console.Model.TransactionParsers
                 case "H":
                     {
                         Double hourlyRate = Double.Parse(words[5]);
-                        transaction = new AddHourlyTransaction(employeeID, employeeName, employeeAddress, hourlyRate);
+                        transaction = new AddHourlyTransaction(employeeID, name, address, hourlyRate);
                         break;
                     }
                 case "S":
                     {
                         Double salary = Double.Parse(words[5]);
-                        transaction = new AddSalariedTransaction(employeeID, employeeName, employeeAddress, salary);
+                        transaction = new AddSalariedTransaction(employeeID, name, address, salary);
                         break;
                     }
                 case "C":
                     {
                         Double salary = Double.Parse(words[5]);
                         Double commissionRate = Double.Parse(words[6]);
-                        transaction = new AddCommissionedTransaction(employeeID, employeeName, employeeAddress, salary, commissionRate);
+                        transaction = new AddCommissionedTransaction(employeeID, name, address, salary, commissionRate);
                         break;
                     }
             }

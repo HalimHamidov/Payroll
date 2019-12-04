@@ -28,9 +28,44 @@ namespace Payroll.Console.Model.TransactionSources
                         transactionParser = new AddEmployeeTransactionParser();
                         break;
                     }
+                case "ChgEmp":
+                    {
+                        transactionParser = new ChangeEmployeeTransactionParser();
+                        break;
+                    }
+                case "DelEmp":
+                    {
+                        transactionParser = new DeleteEmployeeTransactionParser();
+                        break;
+                    }
+                case "Payday":
+                    {
+                        transactionParser = new PaydayTransactionParser();
+                        break;
+                    }
+                case "SalesReceipt":
+                    {
+                        transactionParser = new SalesReceiptTransactionParser();
+                        break;
+                    }
+                case "ServiceCharge":
+                    {
+                        transactionParser = new ServiceChargeTransactionParser();
+                        break;
+                    }
+                case "TimeCard":
+                    {
+                        transactionParser = new TimeCardTransactionParser();
+                        break;
+                    }
             }
 
-            return transactionParser.Parse(transactionText);
+            if (transactionParser != null)
+            {
+                return transactionParser.Parse(transactionText);
+            }
+
+            return null;
         }
 
         private String GetTransactionName(String transactionText)

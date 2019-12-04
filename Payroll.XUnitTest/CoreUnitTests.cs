@@ -10,7 +10,7 @@ using Xunit;
 
 namespace Payroll.XUnitTest
 {
-    public class ModelUnitTests
+    public class CoreUnitTests
     {
         [Fact]
         public void TestAddSalariedEmployee()
